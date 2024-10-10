@@ -16,9 +16,29 @@ public class LogementRessource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Logement> getLogements(){
-        return logementBusiness.getLogements();
+    public Response getLogements(@QueryParam("delegation") String delegation, @QueryParam("reference") Integer reference) {
+
+
+        if (reference != null) {
+            Logement logement = logementBusiness.getLogementsByReference(reference);
+            if (logement != null) {
+                return Response.status(Response.Status.OK).entity(logement).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        }
+
+
+        if (delegation != null) {
+            List<Logement> logements = logementBusiness.getLogementsByDeleguation(delegation);
+            return Response.status(Response.Status.OK).entity(logements).build();
+        }
+
+
+        List<Logement> logements = logementBusiness.getLogements();
+        return Response.status(Response.Status.OK).entity(logements).build();
     }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -47,4 +67,19 @@ public class LogementRessource {
         return Response.status(Response.Status.NOT_FOUND).build();
 
     }
+
+//    @GET
+//    @Path("/{delegation}")
+//    public List<Logement> getLogementByDelegation(@QueryParam("delegation") String delegation){
+//        return logementBusiness.getLogementsByDeleguation(delegation);
+//    }
+//
+//
+//    @GET
+//    @Path("/{reference}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Logement getLogementsByReference(@QueryParam("reference") int reference){
+//        return logementBusiness.getLogementsByReference(reference);
+//    }
+
 }
