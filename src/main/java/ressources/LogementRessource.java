@@ -1,6 +1,7 @@
 package ressources;
 
 import entities.Logement;
+import filter.Secured;
 import metiers.LogementBusiness;
 
 import javax.ws.rs.*;
@@ -14,8 +15,10 @@ public class LogementRessource {
 
     public static LogementBusiness logementBusiness=new LogementBusiness();
 
+
+    @Secured
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)  //produces dans la reponse HTTP
     public Response getLogements(@QueryParam("delegation") String delegation, @QueryParam("reference") Integer reference) {
 
 
@@ -41,8 +44,8 @@ public class LogementRessource {
 
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addLogement(Logement logement){
+    @Consumes(MediaType.APPLICATION_JSON) //consumes pour l'envoie de requete http
+    public Response addLogement(Logement logement){ //la reponse par defaut 204 car elle est void
         if(logementBusiness.addLogement(logement)){
             return Response.status(Response.Status.CREATED).build();
         }
@@ -68,8 +71,10 @@ public class LogementRessource {
 
     }
 
+
+
 //    @GET
-//    @Path("/{delegation}")
+//    @Path("{delegation}")
 //    public List<Logement> getLogementByDelegation(@QueryParam("delegation") String delegation){
 //        return logementBusiness.getLogementsByDeleguation(delegation);
 //    }

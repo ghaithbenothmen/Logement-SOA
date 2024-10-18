@@ -2,7 +2,7 @@ package entities;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+@XmlRootElement
 public class Logement {
     private int reference;
     private String adresse;
@@ -11,6 +11,7 @@ public class Logement {
     private String type;
     private String description;
     private float prix;
+
 
     public Logement() {
     }
